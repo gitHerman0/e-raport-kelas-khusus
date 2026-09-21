@@ -276,8 +276,6 @@ if df is not None:
 
       grade = siswa_data.get(f"Kompetensi {i} Grade", "-")
 
-
-
       if pd.notna(nama_komp) and str(nama_komp).strip() != "":
 
         kompetensi_list.append({
@@ -294,14 +292,21 @@ if df is not None:
 
         })
 
-
-
-    df_komp = pd.DataFrame(kompetensi_list)
-
-    st.dataframe(df_komp, use_container_width=True, hide_index=True) 
-
-
-
+     df_komp = pd.DataFrame(kompetensi_list)
+    
+    # Menampilkan tabel dengan perataan tengah menggunakan column_config bawaan Streamlit
+    st.dataframe(
+        df_komp, 
+        use_container_width=True, 
+        hide_index=True,
+        column_config={
+            "No": st.column_config.NumberColumn("No", width="small"),
+            "Nama Kompetensi": st.column_config.Column("Nama Kompetensi", width="large"),
+            "Target": st.column_config.Column("Target"),
+            "Pencapaian Aktual": st.column_config.Column("Pencapaian Aktual"),
+            "Grade": st.column_config.Column("Grade"),
+        }
+    )
     # ================= GRAFIK KOMPETENSI =================
     st.markdown(
         "<div class='section-header'>📈 GRAFIK TARGET VS PENCAPAIAN"

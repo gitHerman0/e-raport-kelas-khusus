@@ -307,14 +307,22 @@ if df is not None:
     )
     c_res1, c_res2 = st.columns(2)
     with c_res1:
-      st.write(f"**Nilai Rata-rata:** {siswa_data.get('Nilai Rata-rata', '-')}")
+      # Format Nilai Rata-rata agar menjadi 2 desimal
+      raw_rata = siswa_data.get("Nilai Rata-rata", "-")
+      if pd.notna(raw_rata):
+        try:
+          rata_str = f"{float(raw_rata):.2f}"
+        except:
+          rata_str = str(raw_rata)
+      else:
+        rata_str = "-"
+
+      st.write(f"**Nilai Rata-rata:** {rata_str}")
       st.write(f"**Nilai Tertinggi:** {siswa_data.get('Nilai Tertinggi', '-')}")
       st.write(f"**Nilai Terendah:** {siswa_data.get('Nilai Terendah', '-')}")
     with c_res2:
       st.write(f"**Rekomendasi / Masukan:**")
       st.info(f"{siswa_data.get('Rekomendasi Masukan', '-')}")
-
-    st.markdown("---")
 
     # ================= TANGGAL & TANDA TANGAN =================
     col_ttd1, col_ttd2 = st.columns([3, 1])

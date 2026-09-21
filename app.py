@@ -274,8 +274,37 @@ if df is not None:
             "Grade": grade,
         })
 
-    df_komp = pd.DataFrame(kompetensi_list)
-    st.dataframe(df_komp, use_container_width=True, hide_index=True)
+    if kompetensi_list:
+      # Membuat tabel HTML agar kolom No, Target, Aktual, dan Grade posisinya rata tengah
+      html_table = """
+      <table style="width:100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 10px;">
+        <thead>
+          <tr style="background-color: #f2f4f8; color: #1f4e78; border-bottom: 2px solid #ddd;">
+            <th style="padding: 8px; text-align: center; width: 10%;">No</th>
+            <th style="padding: 8px; text-align: left; width: 50%;">Nama Kompetensi</th>
+            <th style="padding: 8px; text-align: center; width: 13%;">Target</th>
+            <th style="padding: 8px; text-align: center; width: 13%;">Pencapaian Aktual</th>
+            <th style="padding: 8px; text-align: center; width: 14%;">Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+      """
+      
+      for row in kompetensi_list:
+        html_table += f"""
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 8px; text-align: center;">{row['No']}</td>
+            <td style="padding: 8px; text-align: left;">{row['Nama Kompetensi']}</td>
+            <td style="padding: 8px; text-align: center;">{row['Target']}</td>
+            <td style="padding: 8px; text-align: center;">{row['Pencapaian Aktual']}</td>
+            <td style="padding: 8px; text-align: center; font-weight: bold;">{row['Grade']}</td>
+          </tr>
+        """
+      
+      html_table += "</tbody></table>"
+      st.markdown(html_table, unsafe_allow_html=True)
+    else:
+      st.info("Belum ada data kompetensi yang diisi.")
 
     # ================= GRAFIK KOMPETENSI =================
     st.markdown(

@@ -39,11 +39,11 @@ st.markdown(
 )
 
 st.markdown(
-    "<h2 class='main-title'>E-RAPORT</h2>",
+    "<h2 class='main-title'>E-RAPOR KELAS KHUSUS</h2>",
     unsafe_allow_html=True,
 )
 st.markdown(
-    "<h4 class='sub-title'>JEPANG & DIGIPRENEUR</h4>", unsafe_allow_html=True
+    "<h4 class='sub-title'>SMK KARYA NASIONAL</h4>", unsafe_allow_html=True
 )
 
 # Sumber Data Excel (Membaca otomatis dari file lokal atau upload sidebar)
@@ -100,7 +100,8 @@ if df is not None:
     with col1:
       logo_path = os.path.join(base_dir, "logo_karnas.png")
       if os.path.exists(logo_path):
-        st.image(logo_path, width=200)
+        # Ukuran logo diperbesar agar lebih ideal (160)
+        st.image(logo_path, width=160)
       else:
         st.markdown("### **[ Logo Karnas ]**")
 
@@ -122,7 +123,6 @@ if df is not None:
       foto_path = ""
       if nama_cari:
         for f in os.listdir(base_dir):
-          # Cek file di direktori utama, abaikan folder atau file lain
           if os.path.isfile(os.path.join(base_dir, f)):
             if os.path.splitext(f)[0].lower() == nama_cari:
               foto_path = os.path.join(base_dir, f)
@@ -253,51 +253,30 @@ if df is not None:
     st.markdown("---")
 
     # ================= KOMPETENSI 1 SAMPAI 8 =================
-
     st.markdown(
-
         "<div class='section-header'>🏆 PENCAPAIAN KOMPETENSI (1 - 8)</div>",
-
         unsafe_allow_html=True,
-
     )
 
-
-
     kompetensi_list = []
-
     for i in range(1, 9):
-
       nama_komp = siswa_data.get(f"Kompetensi {i} Nama", f"Kompetensi {i}")
-
       target = siswa_data.get(f"Kompetensi {i} Target", 0)
-
       aktual = siswa_data.get(f"Kompetensi {i} Aktual", 0)
-
       grade = siswa_data.get(f"Kompetensi {i} Grade", "-")
 
       if pd.notna(nama_komp) and str(nama_komp).strip() != "":
-
         kompetensi_list.append({
-
             "No": i,
-
             "Nama Kompetensi": nama_komp,
-
             "Target": target,
-
             "Pencapaian Aktual": aktual,
-
             "Grade": grade,
-
         })
 
-     df_komp = pd.DataFrame(kompetensi_list)
-    
-    # Menampilkan tabel dengan perataan tengah menggunakan column_config bawaan Streamlit
     df_komp = pd.DataFrame(kompetensi_list)
+    st.dataframe(df_komp, use_container_width=True, hide_index=True)
 
-    st.dataframe(df_komp, use_container_width=True, hide_index=True)
     # ================= GRAFIK KOMPETENSI =================
     st.markdown(
         "<div class='section-header'>📈 GRAFIK TARGET VS PENCAPAIAN"
@@ -328,7 +307,7 @@ if df is not None:
     )
     c_res1, c_res2 = st.columns(2)
     with c_res1:
-      # Format Nilai Rata-rata agar menjadi 2 desimal
+      # Format Nilai Rata-rata menjadi 2 desimal
       raw_rata = siswa_data.get("Nilai Rata-rata", "-")
       if pd.notna(raw_rata):
         try:
@@ -345,12 +324,13 @@ if df is not None:
       st.write(f"**Rekomendasi / Masukan:**")
       st.info(f"{siswa_data.get('Rekomendasi Masukan', '-')}")
 
+    st.markdown("---")
+
     # ================= TANGGAL & TANDA TANGAN =================
     col_ttd1, col_ttd2 = st.columns([3, 1])
     with col_ttd2:
       raw_tgl = siswa_data.get("Tanggal", "...........................")
-      
-      # Bersihkan format tanggal agar tidak menampilkan jam (00:00:00) jika terbaca timestamp
+      # Membersihkan format tanggal timestamp (tanpa jam 00:00:00)
       if pd.notna(raw_tgl):
         tgl_str = str(raw_tgl).split()[0] if " " in str(raw_tgl) else str(raw_tgl)
       else:

@@ -39,11 +39,11 @@ st.markdown(
 )
 
 st.markdown(
-    "<h2 class='main-title'>E-RAPOR KELAS KHUSUS</h2>",
+    "<h2 class='main-title'>E-RAPOR</h2>",
     unsafe_allow_html=True,
 )
 st.markdown(
-    "<h4 class='sub-title'>SMK KARYA NASIONAL</h4>", unsafe_allow_html=True
+    "<h4 class='sub-title'>KELAS KHUSUS</h4>", unsafe_allow_html=True
 )
 
 # Sumber Data Excel (Membaca otomatis dari file lokal atau upload sidebar)

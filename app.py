@@ -327,9 +327,16 @@ if df is not None:
     # ================= TANGGAL & TANDA TANGAN =================
     col_ttd1, col_ttd2 = st.columns([3, 1])
     with col_ttd2:
-      tgl = siswa_data.get("Tanggal", "...........................")
+      raw_tgl = siswa_data.get("Tanggal", "...........................")
+      
+      # Bersihkan format tanggal agar tidak menampilkan jam (00:00:00) jika terbaca timestamp
+      if pd.notna(raw_tgl):
+        tgl_str = str(raw_tgl).split()[0] if " " in str(raw_tgl) else str(raw_tgl)
+      else:
+        tgl_str = "..........................."
+
       wali = siswa_data.get("Wali Kelas", "Nama Wali Kelas")
-      st.write(f"Tanggal: {tgl}")
+      st.write(f"Tanggal: {tgl_str}")
       st.write("\n\n")
       st.write(f"**({wali})**")
       st.write("Wali Kelas")

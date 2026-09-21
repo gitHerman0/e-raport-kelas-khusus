@@ -98,9 +98,8 @@ if df is not None:
     col1, col2, col3 = st.columns([1, 2, 1])
 
     with col1:
-      logo_path = os.path.join(base_dir, "foto", "logo_karnas.png")
+      logo_path = os.path.join(base_dir, "logo_karnas.png")
       if os.path.exists(logo_path):
-        # Caption dihapus agar tulisan "Logo Karnas" tidak tampil
         st.image(logo_path, width=110)
       else:
         st.markdown("### **[ Logo Karnas ]**")
@@ -110,7 +109,6 @@ if df is not None:
           "<div style='text-align: center; padding-top: 20px;'>",
           unsafe_allow_html=True,
       )
-    
       st.markdown("</div>", unsafe_allow_html=True)
 
     with col3:
@@ -120,17 +118,17 @@ if df is not None:
           else ""
       )
       nama_cari = os.path.splitext(foto_input)[0].strip().lower()
-      folder_foto = os.path.join(base_dir, "foto")
 
       foto_path = ""
-      if nama_cari and os.path.exists(folder_foto):
-        for f in os.listdir(folder_foto):
-          if os.path.splitext(f)[0].lower() == nama_cari:
-            foto_path = os.path.join(folder_foto, f)
-            break
+      if nama_cari:
+        for f in os.listdir(base_dir):
+          # Cek file di direktori utama, abaikan folder atau file lain
+          if os.path.isfile(os.path.join(base_dir, f)):
+            if os.path.splitext(f)[0].lower() == nama_cari:
+              foto_path = os.path.join(base_dir, f)
+              break
 
       if foto_path and os.path.exists(foto_path):
-        # Caption dihapus agar tulisan "Foto Siswa" tidak tampil
         st.image(foto_path, width=110)
       else:
         st.image(
@@ -158,7 +156,6 @@ if df is not None:
           unsafe_allow_html=True,
       )
 
-      # Helper function untuk konversi angka absensi ke integer murni tanpa desimal (.0)
       def safe_int(val):
         try:
           return int(val) if pd.notna(val) else 0
@@ -195,7 +192,6 @@ if df is not None:
       st.write(f"**Tindik:** {siswa_data.get('Tindik', '-')}")
       st.write(f"**Tato:** {siswa_data.get('Tato', '-')}")
 
-      # Periode 2 Fisik jika tersedia
       if "Visus Mata 2" in df.columns and pd.notna(
           siswa_data.get("Visus Mata 2")
       ):
@@ -233,7 +229,6 @@ if df is not None:
       )
       st.write(f"**Kraeplin:** {siswa_data.get('Kraeplin', '-')}")
 
-      # Periode 2 Psikotes jika tersedia
       if "Periode Psikotes 2" in df.columns and pd.notna(
           siswa_data.get("Periode Psikotes 2")
       ):

@@ -100,7 +100,7 @@ if df is not None:
     with col1:
       logo_path = os.path.join(base_dir, "logo_karnas.png")
       if os.path.exists(logo_path):
-        st.image(logo_path, width=110)
+        st.image(logo_path, width=200)
       else:
         st.markdown("### **[ Logo Karnas ]**")
 
